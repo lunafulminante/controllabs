@@ -1,20 +1,29 @@
-import type { Request, Response } from 'express';
-import { environments, equipmentList, incidents, users } from '../data/store';
+import { Request, Response } from 'express';
 
-interface DashboardSummary {
-    totalUsuarios: number;
-    ambientesActivos: number;
-    equiposOperativos: number;
-    novedadesCriticasSinResolver: number;
-}
-
-export const getSummary = (_req: Request, res: Response<DashboardSummary>) => {
-    res.json({
-        totalUsuarios: users.filter((user) => !user.deleted).length,
-        ambientesActivos: environments.filter((environment) => environment.estadoOperativo).length,
-        equiposOperativos: equipmentList.filter((item) => item.estadoTecnico === 'operativo').length,
-        novedadesCriticasSinResolver: incidents.filter(
-            (incident) => incident.severidad === 'critica' && incident.estado !== 'resuelto'
-        ).length,
+export class DashboardController {
+  public static createDashboard = (req: Request, res: Response): void => {
+    // TODO: llamar al servicio con req.body y responder 201 con el panel creado.
+    res.status(501).json({
+      success: false,
+      message: 'El registro de paneles todavía no está implementado.'
     });
-};
+  };
+
+  public static getDashboardsByFilter = (req: Request, res: Response): void => {
+    // TODO: tomar los filtros de req.query, llamar al servicio y responder con los resultados.
+    res.status(501).json({
+      success: false,
+      message: 'La consulta de paneles todavía no está implementada.'
+    });
+  };
+
+  public static updateDashboard = (req: Request, res: Response): void => {
+    const { id } = req.params;
+    // TODO: pasar id a la operación de actualización y responder con el resultado.
+    res.status(501).json({
+      success: false,
+      message: `La actualización del panel ${id} todavía no está implementada.`
+    });
+  };
+
+}

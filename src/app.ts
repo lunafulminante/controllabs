@@ -1,25 +1,30 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import dashboardRoutes from './routes/dashboard.routes';
-import environmentRoutes from './routes/environment.routes';
-import equipmentRoutes from './routes/equipment.routes';
-import incidentRoutes from './routes/incident.routes';
-import userRoutes from './routes/user.routes';
+import apiRoutes from './routes';
+import { requestLogger } from './middlewares/logger.middleware';
+import { globalErrorHandler } from './middlewares/errorHandler.middleware';
 
 const app = express();
 
 app.use(cors());
+app.use(requestLogger);
 app.use(express.json());
 
-// Prefijo de versión para la API
-app.use('/api/v1/users', userRoutes);
-app.use('/api/v1/environments', environmentRoutes);
-app.use('/api/v1/equipment', equipmentRoutes);
-app.use('/api/v1/incidents', incidentRoutes);
-app.use('/api/v1/dashboard', dashboardRoutes);
 
-app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'success', timestamp: new Date().toISOString() });
+// Health Check Endpoint
+app.get('/api/v1/health', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'ControlLabs API operando correctamente',
+    timestamp: new Date().toISOString()
+  });
 });
+
+app.use('/api/v1', apiRoutes);
+ app.use((_req, res) => {
+  res.status(404).json({ success: false, error: 'Ruta no encontrada.' });
+});
+
+app.use(globalErrorHandler);
 
 export default app;

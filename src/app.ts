@@ -20,6 +20,10 @@ app.get('/api/v1/health', (req: Request, res: Response) => {
   });
 });
 
+app.get('/__test/error', (_req, _res, next) => {
+  next(new Error('Error de prueba'));
+});
+
 app.use('/api/v1', apiRoutes);
  app.use((_req, res) => {
   res.status(404).json({ success: false, error: 'Ruta no encontrada.' });

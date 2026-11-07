@@ -24,10 +24,9 @@ export const globalErrorHandler = (
         return;
     }
 
-    console.error(err);
+    console.error('Error interno del servidor:', err);
     res.status(500).json({
         status: 'error',
         message: 'Error interno del servidor en ControlLabs',
-        timestamp: new Date().toISOString()
     });
 };

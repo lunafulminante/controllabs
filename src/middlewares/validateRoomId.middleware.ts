@@ -1,4 +1,3 @@
-
 import { Request, Response, NextFunction } from 'express';
 
 export const validateRoomId = (
@@ -8,10 +7,10 @@ export const validateRoomId = (
 ): void => {
   const id = String(req.params.id ?? '').trim();
 
-  if (id === '') {
+  if (!/^[1-9]\d*$/.test(id)) {
     res.status(400).json({
       success: false,
-      error: 'El ID de la habitación es obligatorio.'
+      error: 'El ID de la habitación debe ser un número entero positivo.'
     });
     return;
   }

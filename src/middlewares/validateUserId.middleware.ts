@@ -1,4 +1,3 @@
-
 import { Request, Response, NextFunction } from 'express';
 
 export const validateUserId = (
@@ -8,10 +7,10 @@ export const validateUserId = (
 ): void => {
   const id = String(req.params.id ?? '').trim();
 
-  if (id === '') {
+  if (!/^[1-9]\d*$/.test(id)) {
     res.status(400).json({
       success: false,
-      error: 'El ID del usuario es obligatorio.'
+      error: 'El ID del usuario debe ser un número entero positivo.'
     });
     return;
   }

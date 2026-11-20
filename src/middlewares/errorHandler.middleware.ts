@@ -1,3 +1,4 @@
+
 import { Request, Response, NextFunction } from 'express';
 
 export const globalErrorHandler = (
@@ -25,8 +26,10 @@ export const globalErrorHandler = (
     }
 
     console.error('Error interno del servidor:', err);
+
     res.status(500).json({
         status: 'error',
         message: 'Error interno del servidor en ControlLabs',
+        timestamp: new Date().toISOString()
     });
 };
